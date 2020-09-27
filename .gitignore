@@ -1,0 +1,6 @@
+config/*
+config
+.idea/*
+.idea
+vendor
+vendor/*

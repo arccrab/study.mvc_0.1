@@ -1,4 +1,10 @@
 <?php
+session_start();
+// from auth
+$_SESSION['user_id'] = 1001;
+//
+
+define('DIR', __DIR__);
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -9,4 +15,8 @@ require_once __DIR__.'/vendor/predis/Autoloader.php';
 Predis\Autoloader::register();
 
 require_once __DIR__.'/core/db.php';
+require_once __DIR__.'/core/mvc.php';
+require_once __DIR__.'/core/service.php';
+require_once __DIR__.'/core/auth.php';
+
 require_once __DIR__.'/router.php';
