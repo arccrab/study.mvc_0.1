@@ -89,6 +89,13 @@ class UserController
     }
 
     public function login() {
+
+        if (!$_POST) {
+            MVC::use_view('user/edit');
+
+            return true;
+        }
+
         $data['password'] = Service::get_post_param('password');
         $data['username'] = Service::get_post_param('username');
 

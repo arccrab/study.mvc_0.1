@@ -10,7 +10,7 @@ class MVC {
         return false;
     }
 
-    public static function use_view(String $view, Array $field) {
+    public static function use_view(String $view, Array $field = []) {
 
         if (require_once DIR."/view/".$view.".tpl.php") {
             return true;
