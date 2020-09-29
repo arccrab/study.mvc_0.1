@@ -49,4 +49,8 @@ class Service {
         return true;
     }
 
+    public static function redirect($route) {
+        header('Location: /'.$route);
+    }
+
 }

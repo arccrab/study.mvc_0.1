@@ -37,7 +37,9 @@ class UserModel {
         if ($db_type === 'redis') {
             $result = $db->hget('users', $username);
 
-            $result = $result['id'];
+            if (!$result) {
+                return false;
+            }
         } else {
             $result = false;
         }
@@ -100,18 +102,41 @@ class UserModel {
             } else {
                 return false;
             }
-
-//          $result = $db->hgetall('user:'.$id);
-
-//          request to put fields
         } else {
             $result = false;
         }
-
 
 //        add return array with fields, will use in controller
 //        now only printing (String)
 
         return $result;
+    }
+
+    public static function createUser($data) {
+
+        $db_type = DB::type();
+        $db = DB::init();
+
+        if (!$db) {
+            return false;
+        }
+
+        if ($db_type === 'redis') {
+            $id = $db->get('next_user_id');
+
+            $db->hset('user:'.$id, 'username', $data['username']);
+
+            $data['passkey'] = Auth::create_hash($data['password']);
+
+            $db->hset('user:'.$id, 'username', $data['username']);
+            $db->hset('user:'.$id, 'passkey', $data['passkey']);
+            $db->hset('users', $data['username'], $id);
+
+            $db->incr('next_user_id');
+
+            return $id;
+        }
+
+        return false;
     }
 }

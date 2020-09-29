@@ -1,8 +1,5 @@
 <?php
 session_start();
-// from auth
-$_SESSION['user_id'] = 1001;
-//
 
 define('DIR', __DIR__);
 
@@ -18,5 +15,6 @@ require_once __DIR__.'/core/db.php';
 require_once __DIR__.'/core/mvc.php';
 require_once __DIR__.'/core/service.php';
 require_once __DIR__.'/core/auth.php';
+require_once __DIR__.'/core/debug.php';
 
 require_once __DIR__.'/router.php';

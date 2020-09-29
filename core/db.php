@@ -41,11 +41,8 @@ class DB {
                 return false;
             }
         } else {
-
             return false;
         }
-
-
 
         return $result;
     }

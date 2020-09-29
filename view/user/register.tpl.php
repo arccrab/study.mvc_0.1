@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
     <link href="https://getbootstrap.com/docs/4.5/examples/blog/blog.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/4.0/examples/checkout/form-validation.css" rel="stylesheet">
 </head>
 <body>
 
@@ -20,7 +21,7 @@
                 <a class="text-muted" href="#">Subscribe</a>
             </div>
             <div class="col-4 text-center">
-                <a class="blog-header-logo text-dark" href="#">@<?= $field['username'];?></a>
+                <a class="blog-header-logo text-dark" href="#"><?= 'sociaL_Lorem' ?></a>
             </div>
             <div class="col-4 d-flex justify-content-end align-items-center">
                 <a class="text-muted" href="#" aria-label="Search">
@@ -32,16 +33,32 @@
     </header>
 </div>
 
-<main role="main" class="container">
+<div class="container">
     <div class="row">
         <div class="col-md-8 blog-main">
-            <div class="blog-post">
-                <h4 class="blog-post-title">@<?= $field['username'];?></h4>
-                <p class="blog-post-meta">December 14, 2013 by <a href="#">Chris</a></p>
+            <div class="col-md-8 order-md-1">
+                <h4 class="mb-3">Register</h4>
 
-                <p>Cum aaaaaaaaaaaa natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-                <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-                <p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>
+                <form action="/register" method="post">
+                    <div class="col-md-6 mb-3">
+                        <label for="username">Username</label>
+                        <input class="form-control" type="text" id="username" name="username" placeholder="Username" value="<?= $field['username']; ?>">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="password">Password</label>
+                        <input class="form-control" type="password" id="password" name="password" placeholder="Password">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="password_check">Repeat Password</label>
+                        <input class="form-control" type="password" id="password_check" name="password_check" placeholder="Repeat password">
+                    </div>
+
+                    <button type="submit">REGISTER</button><br>
+
+                    <p><?= $field['message']; ?></p>
+                </form>
             </div><!-- /.blog-post -->
 
             <nav class="blog-pagination">
@@ -62,7 +79,7 @@
 
     </div><!-- /.row -->
 
-</main>
+</div>
 
 </body>
 </html>

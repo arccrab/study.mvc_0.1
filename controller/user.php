@@ -12,19 +12,8 @@
 class UserController
 {
 
-    public function checkData($data) {
-        return true;
-    }
-
-
-
-//
     public function info($request) {
 
-//      ___________
-//      $this->checkData($request);
-//      $this->checkAuth($request);
-//		____________
 
         $id = Service::get_uri_param($request, 1);
 
@@ -39,11 +28,9 @@ class UserController
 	}
 
     public function edit() {
-//      ___________
-//      $this->checkAuth($request);
-//		____________
+
         if (!Auth::check()) {
-            return false;
+            Service::redirect('login');
         }
 
         $id = Service::get_session_param('user_id');
@@ -66,13 +53,55 @@ class UserController
 
     }
 
-	public function create($request) {
+	public function create() {
+        if (Auth::check()) {
+            Service::redirect('user/'.$_SESSION['user_id']);
+        }
 
-//      ___________
-//      $this->checkData($request);
-//      $this->checkAuth($request);
-//		____________
+        $field['message'] = 'default';
+        $field['username'] = '';
 
+        if (!$_POST) {
+            $field['message'] = 'no post';
+
+            MVC::use_view('user/register', $field);
+            return true;
+        }
+
+        $data['password'] = Service::get_post_param('password');
+        $data['password_check'] = Service::get_post_param('password_check');
+        $data['username'] = Service::get_post_param('username');
+
+        if  ($data['password'] !== $data['password_check']) {
+            $field['message'] = DB::get_state_message('passwords_not_match');
+            $field['username'] = $data['username'];
+
+            MVC::use_view('user/register', $field);
+            return true;
+        }
+
+        if  (!$data['password'] || !$data['username']) {
+            $field['message'] = DB::get_state_message('user_login_nodata');
+            $field['username'] = $data['username'];
+
+            MVC::use_view('user/register', $field);
+            return true;
+        }
+
+        MVC::use_model('user');
+        $user_id = UserModel::createUser($data);
+
+        if (!$user_id) {
+            Debug::error('User "'.$data['username'].'" not created');
+
+            Service::redirect('');
+        }
+
+        $_SESSION['user_id'] = $user_id;
+
+        Service::redirect('user/'.$user_id);
+
+        return true;
     }
 
 
@@ -90,8 +119,14 @@ class UserController
 
     public function login() {
 
+        if (Auth::check()) {
+            Service::redirect('user/'.$_SESSION['user_id']);
+        }
+
+        $field['message'] = '';
+
         if (!$_POST) {
-            MVC::use_view('user/edit');
+            MVC::use_view('user/login', $field);
 
             return true;
         }
@@ -99,20 +134,33 @@ class UserController
         $data['password'] = Service::get_post_param('password');
         $data['username'] = Service::get_post_param('username');
 
-        MVC::use_model('user');
+        if  (!$data['password'] || !$data['username']) {
+            $field['message'] = DB::get_state_message('user_login_nodata');
 
-        $user_id = UserModel::getUserId($data['username']);
-
-        if  (!$user_id) {
-            return false;
+            MVC::use_view('user/login', $field);
+            return true;
         }
 
-        if (!UserModel::checkPassword($data['password'], $user_id)) {
-            return false;
+        MVC::use_model('user');
+        $user_id = UserModel::getUserId($data['username']);
+
+        if (!$user_id || !UserModel::checkPassword($data['password'], $user_id)) {
+            $field['message'] = DB::get_state_message('user_login_fail');
+
+            MVC::use_view('user/login', $field);
+            return true;
         }
 
         $_SESSION['user_id'] = $user_id;
+
+        Service::redirect('user/'.$user_id);
+
         return true;
+    }
+
+    public function logout() {
+        session_destroy();
+        Service::redirect('login');
     }
 
 }

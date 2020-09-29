@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
     <link href="https://getbootstrap.com/docs/4.5/examples/blog/blog.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/4.0/examples/checkout/form-validation.css" rel="stylesheet">
 </head>
 <body>
 
@@ -20,7 +21,7 @@
                 <a class="text-muted" href="#">Subscribe</a>
             </div>
             <div class="col-4 text-center">
-                <a class="blog-header-logo text-dark" href="#">Edit user</a>
+                <a class="blog-header-logo text-dark" href="#"><?= 'sociaL_Lorem' ?></a>
             </div>
             <div class="col-4 d-flex justify-content-end align-items-center">
                 <a class="text-muted" href="#" aria-label="Search">
@@ -32,20 +33,24 @@
     </header>
 </div>
 
-<main role="main" class="container">
+<div class="container">
     <div class="row">
         <div class="col-md-8 blog-main">
-            <div class="blog-post">
-                <h4 class="blog-post-title">Edit User</h4>
+            <div class="col-md-8 order-md-1">
+                <h4 class="mb-3">Login</h4>
 
-                <form action="#" method="post">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" placeholder="<?= $field['username']; ?>">
+                <form action="/login" method="post">
+                    <div class="col-md-6 mb-3">
+                        <label for="username">Username</label>
+                        <input class="form-control" type="text" id="username" name="username" placeholder="Username">
+                    </div>
 
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter password here">
+                    <div class="col-md-6 mb-3">
+                        <label for="password">Password</label>
+                        <input class="form-control" type="password" id="password" name="password" placeholder="Password">
+                    </div>
 
-                    <button type="submit">Login</button>
+                    <button type="submit">LOGIN</button><br>
 
                     <p><?= $field['message']; ?></p>
                 </form>
@@ -69,7 +74,7 @@
 
     </div><!-- /.row -->
 
-</main>
+</div>
 
 </body>
 </html>
