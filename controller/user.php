@@ -14,7 +14,6 @@ class UserController
 
     public function info($request) {
 
-
         $id = Service::get_uri_param($request, 1);
 
 		MVC::use_model('user');
@@ -37,7 +36,7 @@ class UserController
 
         MVC::use_model('user');
         $field = UserModel::getUserInfo($id);
-        $result = UserModel::editUserInfo($id, $field);
+        $result = UserModel::editUser($id, $field);
 
         if ($result) {
             $field['message'] = DB::get_state_message('user_edit_success');
@@ -58,12 +57,10 @@ class UserController
             Service::redirect('user/'.$_SESSION['user_id']);
         }
 
-        $field['message'] = 'default';
+        $field['message'] = '';
         $field['username'] = '';
 
         if (!$_POST) {
-            $field['message'] = 'no post';
-
             MVC::use_view('user/register', $field);
             return true;
         }
@@ -97,24 +94,31 @@ class UserController
             Service::redirect('');
         }
 
-        $_SESSION['user_id'] = $user_id;
+        Service::set_session_param('user_id', $user_id);
 
         Service::redirect('user/'.$user_id);
 
         return true;
     }
 
+    public function delete() {
+        if (!Auth::check()) {
+            Service::redirect('login');
+        }
 
-    public function delete($request) {
+        MVC::use_model('user');
 
-    }
+        $user_id = Service::get_session_param('user_id');
 
-    public function follow($request) {
+        if (!UserModel::deleteUser($user_id)) {
+            Debug::error('user not deleted');
+        }
 
-    }
+        $field['message'] = DB::get_state_message('user_deleted');
 
-    public function unfollow($request) {
+        $this->logout();
 
+        return true;
     }
 
     public function login() {
@@ -160,7 +164,14 @@ class UserController
 
     public function logout() {
         session_destroy();
-        Service::redirect('login');
+        Service::redirect('');
     }
 
+    public function follow($request) {
+
+    }
+
+    public function unfollow($request) {
+
+    }
 }

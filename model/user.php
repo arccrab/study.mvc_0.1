@@ -71,7 +71,7 @@ class UserModel {
         return false;
     }
 
-    public static function editUserInfo ($id, $data) {
+    public static function editUser ($id, $data) {
 
         $db_type = DB::type();
         $db = DB::init();
@@ -135,6 +135,31 @@ class UserModel {
             $db->incr('next_user_id');
 
             return $id;
+        }
+
+        return false;
+    }
+
+    public static function deleteUser($id) {
+        $db_type = DB::type();
+        $db = DB::init();
+
+        if (!$db) {
+            return false;
+        }
+
+        if ($db_type === 'redis') {
+            $user = self::getUserInfo($id);
+            $username = $user['username'];
+
+            $db->del('user:'.$id);
+            $db->hdel('users', $username);
+
+            if  (self::getUserInfo($data['id'])) {
+                return false;
+            }
+
+            return true;
         }
 
         return false;

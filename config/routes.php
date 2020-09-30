@@ -6,5 +6,7 @@ $routes = [
     ['route' => 'login', 'action' => 'user/login'],
     ['route' => 'exit', 'action' => 'user/logout'],
     ['route' => 'register', 'action' => 'user/create'],
+//    ['route' => 'delete', 'action' => 'user/delete'],
+    ['route' => '', 'action' => 'index/index'],
 ];
 
