@@ -1,0 +1,38 @@
+//@color1: #264653;
+@color1: #264653;
+@color2: #2A9D8F;
+@color3: #E9C46A;
+@color4: #F4A261;
+@color5: #E76F51;
+
+body {
+  background: @color1;
+}
+
+* {
+  font-family: Rubik;
+
+  user-select: none;
+}
+
+header {
+  background: lighten(@color1, 20%);
+
+  .title a{
+    font: 24px Piazzolla;
+    color: lighten(@color1, 40%);;
+    transition: 0.2s;
+
+    &:hover {
+      text-decoration: none;
+      color: lighten(@color1, 80%);
+      transition: 0.2s;
+    }
+  }
+}
+
+#user-info .jumbotron{
+  position: fixed;
+  top: 41px;
+  border: 1px solid  saddlebrown;
+}

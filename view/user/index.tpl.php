@@ -1,67 +1,82 @@
-<!doctype html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
-    <link href="https://getbootstrap.com/docs/4.5/examples/blog/blog.css" rel="stylesheet">
-</head>
-<body>
-
-<div class="container">
-    <header class="blog-header py-3">
-        <div class="row flex-nowrap justify-content-between align-items-center">
-            <div class="col-4 pt-1">
-                <a class="text-muted" href="#">Subscribe</a>
-            </div>
-            <div class="col-4 text-center">
-                <a class="blog-header-logo text-dark" href="#">@<?= $field['username'];?></a>
-            </div>
-            <div class="col-4 d-flex justify-content-end align-items-center">
-                <a class="text-muted" href="#" aria-label="Search">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24" focusable="false"><title>Search</title><circle cx="10.5" cy="10.5" r="7.5"></circle><path d="M21 21l-5.2-5.2"></path></svg>
-                </a>
-                <a class="btn btn-sm btn-outline-secondary" href="#">Sign up</a>
-            </div>
-        </div>
-    </header>
-</div>
-
-<main role="main" class="container">
-    <div class="row">
-        <div class="col-md-8 blog-main">
-            <div class="blog-post">
-                <h4 class="blog-post-title">@<?= $field['username'];?></h4>
-                <p class="blog-post-meta">December 14, 2013 by <a href="#">Chris</a></p>
-
-                <p>Cum aaaaaaaaaaaa natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-                <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-                <p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>
-            </div><!-- /.blog-post -->
-
-            <nav class="blog-pagination">
-                <a class="btn btn-outline-primary" href="#">Older</a>
-                <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Newer</a>
-            </nav>
-        </div><!-- /.blog-main -->
-
-        <aside class="col-md-4 blog-sidebar">
-            <div class="p-4 mb-3 bg-light rounded">
-                <pre>
 <?php
-//var_dump($res);
+MVC::use_view('app/head');
+MVC::use_view('app/header');
 ?>
-                </pre>
-            </div>
-        </aside><!-- /.blog-sidebar -->
 
-    </div><!-- /.row -->
+<main class="container">
+    <div class="row px-0">
+    <div class="col-md-4" id="user-info">
+        <div class="jumbotron my-4">
+            <h1 class="display-4">@<?= $field['user_info']['username'] ?></h1>
+            <p class="lead">Hello, I'm fine, thanks =)</p>
+            <p>Registered: <span class="lead">11 Aug 2045</span></p>
+            <p>Posts: <span class="lead">812</span></p>
+            <p>Followers: <span class="lead">37137</span></p>
+            <p>Following: <span class="lead">12</span></p>
+            <hr class="my-4">
+            <a class="btn btn-primary btn-lg" href="/follow/USER_ID" role="button">Follow</a>
+            <a class="btn btn-outline-secondary btn-lg" href="/unfollow/USER_ID" role="button">Unfollow</a>
+        </div>
+    </div>
+    <div class="col-md-8" id="user-posts">
+        <div class="jumbotron my-4 py-4">
+            <h4>@<?= $field['user_info']['username'] ?> <span class="badge badge-secondary">14 hours ago</span></h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aspernatur assumenda, est id necessitatibus similique! Accusamus aliquid amet, aperiam dignissimos, enim explicabo impedit incidunt possimus quis ratione repellat suscipit temporibus.</p>
+            <a class="btn btn-primary" href="/post/like/POST_ID" role="button">Like</a>
+            <a class="btn btn-primary" href="/post/repost/POST_ID" role="button">Repost</a>
+            <a class="btn btn-primary" href="/post/comment/POST_ID" role="button">Comment</a>
+            <form action="/comment/POST_ID">
+                <textarea class="form-control my-4" id="comment" name="comment" placeholder="Say what you think..."></textarea>
+                <button class="btn btn-outline-success" href="/post/repost/POST_ID">Comment</button>
+            </form>
+        </div>
+        <div class="jumbotron my-4 py-4">
+            <h4>@<?= $field['user_info']['username'] ?> <span class="badge badge-secondary">18 hours ago</span></h4>
+            <p>Make, kind they're the. Was two. Under. Brought. Upon spirit green evening place created Fill be every good creeping great, open, moveth good from. Divided signs likeness fowl sixth of great life moveth.
 
+                Form under. Replenish, green lesser it created give divide. Meat fish light third fly gathered waters days light tree fly one under moved. May saying whales fill our saw divide so.
+
+                Made night seas you're wherein after god their fish years day blessed behold there moved subdue night beast blessed evening land rule saying lights appear dry every first it whales the day grass. Doesn't god he.</p>
+            <a class="btn btn-primary" href="/post/like/POST_ID" role="button">Like</a>
+            <a class="btn btn-primary" href="/post/repost/POST_ID" role="button">Repost</a>
+            <a class="btn btn-primary" href="/post/comment/POST_ID" role="button">Comment</a>
+            <form action="/comment/POST_ID">
+                <textarea class="form-control my-4" id="comment" name="comment" placeholder="Say what you think..."></textarea>
+                <button class="btn btn-outline-success" href="/post/repost/POST_ID">Comment</button>
+            </form>
+        </div>
+        <div class="jumbotron my-4 py-4">
+            <h4>@<?= $field['user_info']['username'] ?> <span class="badge badge-secondary">19 hours ago</span></h4>
+            <p>Make, kind they're the. Was two. Under. Brought. Upon spirit green evening place created Fill be every good creeping great, open, moveth good from. Divided signs likeness fowl sixth of great life moveth.
+
+                Form under. Replenish, green lesser it created give divide. Meat fish light third fly gathered waters days light tree fly one under moved. May saying whales fill our saw divide so.
+
+                Made night seas you're wherein after god their fish years day blessed behold there moved subdue night beast blessed evening land rule saying lights appear dry every first it whales the day grass. Doesn't god he.</p>
+            <a class="btn btn-primary" href="/post/like/POST_ID" role="button">Like</a>
+            <a class="btn btn-primary" href="/post/repost/POST_ID" role="button">Repost</a>
+            <a class="btn btn-primary" href="/post/comment/POST_ID" role="button">Comment</a>
+            <form action="/comment/POST_ID">
+                <textarea class="form-control my-4" id="comment" name="comment" placeholder="Say what you think..."></textarea>
+                <button class="btn btn-outline-success" href="/post/repost/POST_ID">Comment</button>
+            </form>
+        </div>
+        <div class="jumbotron my-4 py-4">
+            <h4>@<?= $field['user_info']['username'] ?> <span class="badge badge-secondary">21 hours ago</span></h4>
+            <p>Make, kind they're the. Was two. Under. Brought. Upon spirit green evening place created Fill be every good creeping great, open, moveth good from. Divided signs likeness fowl sixth of great life moveth.
+
+                Form under. Replenish, green lesser it created give divide. Meat fish light third fly gathered waters days light tree fly one under moved. May saying whales fill our saw divide so.
+
+                Made night seas you're wherein after god their fish years day blessed behold there moved subdue night beast blessed evening land rule saying lights appear dry every first it whales the day grass. Doesn't god he.</p>
+            <a class="btn btn-primary" href="/post/like/POST_ID" role="button">Like</a>
+            <a class="btn btn-primary" href="/post/repost/POST_ID" role="button">Repost</a>
+            <a class="btn btn-primary" href="/post/comment/POST_ID" role="button">Comment</a>
+            <form action="/comment/POST_ID">
+                <textarea class="form-control my-4" id="comment" name="comment" placeholder="Say what you think..."></textarea>
+                <button class="btn btn-outline-success" href="/post/repost/POST_ID">Comment</button>
+            </form>
+        </div>
+    </div>
+    </div>
 </main>
 
 </body>

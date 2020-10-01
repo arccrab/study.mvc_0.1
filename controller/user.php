@@ -17,11 +17,9 @@ class UserController
         $id = Service::get_uri_param($request, 1);
 
 		MVC::use_model('user');
-		$field = UserModel::getUserInfo($id);
+		$field['user_info'] = UserModel::getUserInfo($id);
 
-		if ($field) {
-            MVC::use_view('user/index', $field);
-        }
+		MVC::use_view('user/index', $field);
 
 		return true;
 	}
@@ -61,7 +59,7 @@ class UserController
         $field['username'] = '';
 
         if (!$_POST) {
-            MVC::use_view('user/register', $field);
+            MVC::use_view('user/register');
             return true;
         }
 
@@ -73,7 +71,7 @@ class UserController
             $field['message'] = DB::get_state_message('passwords_not_match');
             $field['username'] = $data['username'];
 
-            MVC::use_view('user/register', $field);
+            MVC::use_view('user/register');
             return true;
         }
 
@@ -81,7 +79,7 @@ class UserController
             $field['message'] = DB::get_state_message('user_login_nodata');
             $field['username'] = $data['username'];
 
-            MVC::use_view('user/register', $field);
+            MVC::use_view('user/register');
             return true;
         }
 
@@ -130,7 +128,7 @@ class UserController
         $field['message'] = '';
 
         if (!$_POST) {
-            MVC::use_view('user/login', $field);
+            MVC::use_view('user/login');
 
             return true;
         }
@@ -141,7 +139,7 @@ class UserController
         if  (!$data['password'] || !$data['username']) {
             $field['message'] = DB::get_state_message('user_login_nodata');
 
-            MVC::use_view('user/login', $field);
+            MVC::use_view('user/login');
             return true;
         }
 
@@ -151,7 +149,7 @@ class UserController
         if (!$user_id || !UserModel::checkPassword($data['password'], $user_id)) {
             $field['message'] = DB::get_state_message('user_login_fail');
 
-            MVC::use_view('user/login', $field);
+            MVC::use_view('user/login');
             return true;
         }
 

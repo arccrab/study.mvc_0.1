@@ -31,6 +31,4 @@ foreach ($routes as $r_val) {
 
 if (!$route_check) {
 	header("HTTP/1.0 404 Not Found");
-} else {
-	echo "<hr><pre>Route: $request_uri</pre><hr>";
 }
