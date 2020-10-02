@@ -15,9 +15,15 @@ class UserController
     public function info($request) {
 
         $id = Service::get_uri_param($request, 1);
+        $user_id = Service::get_session_param('user_id');
 
 		MVC::use_model('user');
 		$field['user_info'] = UserModel::getUserInfo($id);
+		$field['user_info']['user_id'] = $id;
+
+		if ($id !== $user_id) {
+            $field['follow'] = UserModel::checkFollow($id);
+        }
 
 		MVC::use_view('user/index', $field);
 
@@ -30,24 +36,35 @@ class UserController
             Service::redirect('login');
         }
 
+        $field['message'] = '';
+
         $id = Service::get_session_param('user_id');
 
         MVC::use_model('user');
-        $field = UserModel::getUserInfo($id);
-        $result = UserModel::editUser($id, $field);
+        $field['user_info'] = UserModel::getUserInfo($id);
+
+        if (!$_POST) {
+            MVC::use_view('user/edit', $field);
+
+            return true;
+        }
+
+        $data['password'] = Service::get_post_param('password');
+        $data['username'] = Service::get_post_param('username');
+
+        $result = UserModel::editUser($id, $data);
 
         if ($result) {
             $field['message'] = DB::get_state_message('user_edit_success');
+
+            Service::redirect('user/'.$id);
         } else {
             $field['message'] = DB::get_state_message('user_edit_fail');
-        }
 
-        if ($field) {
             MVC::use_view('user/edit', $field);
         }
 
         return true;
-
     }
 
 	public function create() {
@@ -167,9 +184,35 @@ class UserController
 
     public function follow($request) {
 
+        $follow_id = Service::get_uri_param($request, 1);
+        $user_id = Service::get_session_param('user_id');
+
+        if ($follow_id === $user_id) {
+            return true;
+        }
+
+        MVC::use_model('user');
+        UserModel::followUser($follow_id);
+
+        Service::redirect('user/'.$follow_id);
+
+        return true;
     }
 
     public function unfollow($request) {
 
+        $follow_id = Service::get_uri_param($request, 1);
+        $user_id = Service::get_session_param('user_id');
+
+        if ($follow_id === $user_id) {
+            return true;
+        }
+
+        MVC::use_model('user');
+        UserModel::unfollowUser($follow_id);
+
+        Service::redirect('user/'.$follow_id);
+
+        return true;
     }
 }

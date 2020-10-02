@@ -5,20 +5,29 @@ MVC::use_view('app/header');
 
 <main class="container">
     <div class="row px-0">
-    <div class="col-md-4" id="user-info">
+    <div class="col-lg-4" id="user-info">
         <div class="jumbotron my-4">
             <h1 class="display-4">@<?= $field['user_info']['username'] ?></h1>
             <p class="lead">Hello, I'm fine, thanks =)</p>
             <p>Registered: <span class="lead">11 Aug 2045</span></p>
-            <p>Posts: <span class="lead">812</span></p>
-            <p>Followers: <span class="lead">37137</span></p>
-            <p>Following: <span class="lead">12</span></p>
+            <p>Posts: <span class="lead"><?= $field['user_info']['posts_count'] ?></span></p>
+            <p>Followers: <span class="lead"><?= $field['user_info']['followers_count'] ?></span></p>
+            <p>Following: <span class="lead"><?= $field['user_info']['following_count'] ?></span></p>
             <hr class="my-4">
-            <a class="btn btn-primary btn-lg" href="/follow/USER_ID" role="button">Follow</a>
-            <a class="btn btn-outline-secondary btn-lg" href="/unfollow/USER_ID" role="button">Unfollow</a>
+            <?php
+            if (isset($field['follow']) && $field['follow']) {
+            ?>
+                <a class="btn btn-outline-secondary btn-lg" href="/unfollow/<?= $field['user_info']['user_id'] ?>" role="button">Unfollow</a>
+            <?php
+            } elseif (isset($field['follow']) && !$field['follow']) {
+            ?>
+                <a class="btn btn-primary btn-lg" href="/follow/<?= $field['user_info']['user_id'] ?>" role="button">Follow</a>
+            <?php
+            }
+            ?>
         </div>
     </div>
-    <div class="col-md-8" id="user-posts">
+    <div class="col-lg-8" id="user-posts">
         <div class="jumbotron my-4 py-4">
             <h4>@<?= $field['user_info']['username'] ?> <span class="badge badge-secondary">14 hours ago</span></h4>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aspernatur assumenda, est id necessitatibus similique! Accusamus aliquid amet, aperiam dignissimos, enim explicabo impedit incidunt possimus quis ratione repellat suscipit temporibus.</p>

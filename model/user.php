@@ -12,6 +12,22 @@ class UserModel {
 
         if ($db_type === 'redis') {
             $result = $db->hgetall('user:'.$id);
+            $result['followers_count'] = 0;
+            $result['following_count'] = 0;
+            $result['posts_count'] = 0;
+
+            $followers = $db->lrange('followers:'.$id, 0, -1);
+
+            if (is_countable($followers)) {
+                $result['followers_count'] = count($followers);
+            }
+
+            $following = $db->lrange('following:'.$id, 0, -1);
+
+            if (is_countable($following)) {
+                $result['following_count'] = count($following);
+            }
+
         } else {
             $result = false;
         }
@@ -76,21 +92,13 @@ class UserModel {
         $db_type = DB::type();
         $db = DB::init();
 
-        if (!$db) {
+        if (!$db || !$data['password'] || !$data['username']) {
             return false;
         }
 
         if ($db_type === 'redis') {
 
             if ($db->exists('user:'.$id)) {
-
-                $db->hset('user:'.$id, 'username', $data['username']);
-
-                $data['password'] = Service::get_post_param('password');
-
-                if (!$data['password']) {
-                    return false;
-                }
 
                 $data['passkey'] = Auth::create_hash($data['password']);
 
@@ -155,11 +163,77 @@ class UserModel {
             $db->del('user:'.$id);
             $db->hdel('users', $username);
 
-            if  (self::getUserInfo($data['id'])) {
+            if  (self::getUserInfo($id)) {
                 return false;
             }
 
             return true;
+        }
+
+        return false;
+    }
+
+    public static function followUser($follow_id) {
+
+        $db_type = DB::type();
+        $db = DB::init();
+
+        if (!$db) {
+            return false;
+        }
+
+        $user_id = Service::get_session_param('user_id');
+
+        if ($db_type === 'redis') {
+            $db->lpush('following:'.$user_id, [$follow_id]);
+            $db->lpush('followers:'.$follow_id, [$user_id]);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function unfollowUser($follow_id) {
+
+        $db_type = DB::type();
+        $db = DB::init();
+
+        if (!$db) {
+            return false;
+        }
+
+        $user_id = Service::get_session_param('user_id');
+
+        if ($db_type === 'redis') {
+            $db->lrem('following:'.$user_id, 0, $follow_id);
+            $db->lrem('followers:'.$follow_id, 0, $user_id);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function checkFollow($follow_id) {
+
+        $db_type = DB::type();
+        $db = DB::init();
+
+        if (!$db) {
+            return false;
+        }
+
+        $user_id = Service::get_session_param('user_id');
+
+        if ($db_type === 'redis') {
+            $followers = $db->lrange('followers:'.$follow_id, 0, -1);
+
+            if (array_search($user_id, $followers) !== false) {
+                return true;
+            }
+
+            return false;
         }
 
         return false;
