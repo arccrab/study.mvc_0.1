@@ -29,61 +29,30 @@ MVC::use_view('app/header');
     </div>
     <div class="col-lg-8" id="user-posts">
         <div class="jumbotron my-4 py-4">
-            <h4>@<?= $field['user_info']['username'] ?> <span class="badge badge-secondary">14 hours ago</span></h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aspernatur assumenda, est id necessitatibus similique! Accusamus aliquid amet, aperiam dignissimos, enim explicabo impedit incidunt possimus quis ratione repellat suscipit temporibus.</p>
-            <a class="btn btn-primary" href="/post/like/POST_ID" role="button">Like</a>
-            <a class="btn btn-primary" href="/post/repost/POST_ID" role="button">Repost</a>
-            <a class="btn btn-primary" href="/post/comment/POST_ID" role="button">Comment</a>
-            <form action="/comment/POST_ID">
-                <textarea class="form-control my-4" id="comment" name="comment" placeholder="Say what you think..."></textarea>
-                <button class="btn btn-outline-success" href="/post/repost/POST_ID">Comment</button>
+            <h4>New Post</span></h4>
+            <form action="/post/create" method="post">
+                <textarea class="form-control my-4" id="new_post" name="new_post" placeholder="Say what you think..."></textarea>
+                <button class="btn btn-outline-primary">Post</button>
             </form>
         </div>
-        <div class="jumbotron my-4 py-4">
-            <h4>@<?= $field['user_info']['username'] ?> <span class="badge badge-secondary">18 hours ago</span></h4>
-            <p>Make, kind they're the. Was two. Under. Brought. Upon spirit green evening place created Fill be every good creeping great, open, moveth good from. Divided signs likeness fowl sixth of great life moveth.
+        <hr style="border-color: white">
 
-                Form under. Replenish, green lesser it created give divide. Meat fish light third fly gathered waters days light tree fly one under moved. May saying whales fill our saw divide so.
-
-                Made night seas you're wherein after god their fish years day blessed behold there moved subdue night beast blessed evening land rule saying lights appear dry every first it whales the day grass. Doesn't god he.</p>
-            <a class="btn btn-primary" href="/post/like/POST_ID" role="button">Like</a>
-            <a class="btn btn-primary" href="/post/repost/POST_ID" role="button">Repost</a>
-            <a class="btn btn-primary" href="/post/comment/POST_ID" role="button">Comment</a>
-            <form action="/comment/POST_ID">
-                <textarea class="form-control my-4" id="comment" name="comment" placeholder="Say what you think..."></textarea>
-                <button class="btn btn-outline-success" href="/post/repost/POST_ID">Comment</button>
-            </form>
-        </div>
-        <div class="jumbotron my-4 py-4">
-            <h4>@<?= $field['user_info']['username'] ?> <span class="badge badge-secondary">19 hours ago</span></h4>
-            <p>Make, kind they're the. Was two. Under. Brought. Upon spirit green evening place created Fill be every good creeping great, open, moveth good from. Divided signs likeness fowl sixth of great life moveth.
-
-                Form under. Replenish, green lesser it created give divide. Meat fish light third fly gathered waters days light tree fly one under moved. May saying whales fill our saw divide so.
-
-                Made night seas you're wherein after god their fish years day blessed behold there moved subdue night beast blessed evening land rule saying lights appear dry every first it whales the day grass. Doesn't god he.</p>
-            <a class="btn btn-primary" href="/post/like/POST_ID" role="button">Like</a>
-            <a class="btn btn-primary" href="/post/repost/POST_ID" role="button">Repost</a>
-            <a class="btn btn-primary" href="/post/comment/POST_ID" role="button">Comment</a>
-            <form action="/comment/POST_ID">
-                <textarea class="form-control my-4" id="comment" name="comment" placeholder="Say what you think..."></textarea>
-                <button class="btn btn-outline-success" href="/post/repost/POST_ID">Comment</button>
-            </form>
-        </div>
-        <div class="jumbotron my-4 py-4">
-            <h4>@<?= $field['user_info']['username'] ?> <span class="badge badge-secondary">21 hours ago</span></h4>
-            <p>Make, kind they're the. Was two. Under. Brought. Upon spirit green evening place created Fill be every good creeping great, open, moveth good from. Divided signs likeness fowl sixth of great life moveth.
-
-                Form under. Replenish, green lesser it created give divide. Meat fish light third fly gathered waters days light tree fly one under moved. May saying whales fill our saw divide so.
-
-                Made night seas you're wherein after god their fish years day blessed behold there moved subdue night beast blessed evening land rule saying lights appear dry every first it whales the day grass. Doesn't god he.</p>
-            <a class="btn btn-primary" href="/post/like/POST_ID" role="button">Like</a>
-            <a class="btn btn-primary" href="/post/repost/POST_ID" role="button">Repost</a>
-            <a class="btn btn-primary" href="/post/comment/POST_ID" role="button">Comment</a>
-            <form action="/comment/POST_ID">
-                <textarea class="form-control my-4" id="comment" name="comment" placeholder="Say what you think..."></textarea>
-                <button class="btn btn-outline-success" href="/post/repost/POST_ID">Comment</button>
-            </form>
-        </div>
+        <?php
+        foreach ($field['posts'] as $post_id => $post) {
+        ?>
+            <div class="jumbotron my-4 py-4">
+                <h4>@<?= $field['user_info']['username'] ?> <span class="badge badge-secondary"><?= $post['time'] ?></span></h4>
+                <p><?= $post['body'] ?></p>
+<!--                <a class="btn btn-primary" href="/post/like/--><?//= $post_id ?><!--" role="button">Like</a>-->
+<!--                <a class="btn btn-primary" href="/post/comment/--><?//= $post_id ?><!--" role="button">Comment</a>-->
+<!--                <form action="/comment/--><?//= $post_id ?><!--">-->
+<!--                    <textarea class="form-control my-4" id="comment" name="comment" placeholder="Say what you think..."></textarea>-->
+<!--                    <button class="btn btn-outline-success" href="/post/repost/POST_ID">Comment</button>-->
+<!--                </form>-->
+            </div>
+        <?php
+        }
+        ?>
     </div>
     </div>
 </main>

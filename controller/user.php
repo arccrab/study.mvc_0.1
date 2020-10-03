@@ -1,14 +1,5 @@
 <?php
 
-/**
- * param example user/1001 - info
- * param example user/edit - edit
- * param example user/delete - delete
- * param example user/create - create
- * param example follow/1001 - follow
- * param example unfollow/1001 - unfollow
- *
- */
 class UserController
 {
 
@@ -20,6 +11,9 @@ class UserController
 		MVC::use_model('user');
 		$field['user_info'] = UserModel::getUserInfo($id);
 		$field['user_info']['user_id'] = $id;
+
+		// TODO: set number of posts from request
+		$field['posts'] = UserModel::getUserPosts($id, [1, 20]);
 
 		if ($id !== $user_id) {
             $field['follow'] = UserModel::checkFollow($id);

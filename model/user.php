@@ -28,6 +28,12 @@ class UserModel {
                 $result['following_count'] = count($following);
             }
 
+            $posts = $db->lrange('posts:'.$id, 0, -1);
+
+            if (is_countable($following)) {
+                $result['posts_count'] = count($posts);
+            }
+
         } else {
             $result = false;
         }
@@ -234,6 +240,42 @@ class UserModel {
             }
 
             return false;
+        }
+
+        return false;
+    }
+
+    public static function getUserPosts($id, Array $range) {
+
+        $db_type = DB::type();
+        $db = DB::init();
+
+        if (!$db) {
+            return false;
+        }
+
+        if ($db_type === 'redis') {
+            $list = $db->lrange('posts:'.$id, 0, -1);
+            natsort($list);
+
+            $list = array_values($list);
+
+            $posts = [];
+            $range[0]--;
+
+            for ($i = $range[0]; $i < $range[1]; $i++) {
+                if (isset($list[$i])) {
+                    $posts[$list[$i]] = $db->hgetall('post:'.$list[$i]);
+                    $posts[$list[$i]]['time'] = date('Y-m-d H:i:s', $posts[$list[$i]]['time']);
+                } else {
+                    break;
+                }
+
+            }
+
+            $posts = array_reverse($posts);
+
+            return $posts;
         }
 
         return false;
