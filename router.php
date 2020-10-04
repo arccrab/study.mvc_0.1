@@ -21,9 +21,7 @@ foreach ($routes as $r_val) {
 		$worker = new $controller();
 		$action = $action[1];
 
-		if (!$worker->$action($request_uri)) {
-			exit('WRONG ROUTE');
-		}
+		$worker->$action($request_uri);
 
 		$route_check = true;
 	}

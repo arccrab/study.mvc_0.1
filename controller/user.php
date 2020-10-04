@@ -9,11 +9,12 @@ class UserController
         $user_id = Service::get_session_param('user_id');
 
 		MVC::use_model('user');
+		MVC::use_model('post');
 		$field['user_info'] = UserModel::getUserInfo($id);
 		$field['user_info']['user_id'] = $id;
 
 		// TODO: set number of posts from request
-		$field['posts'] = UserModel::getUserPosts($id, [1, 20]);
+		$field['posts'] = PostModel::getUserPosts($id, [1, 20]);
 
 		if ($id !== $user_id) {
             $field['follow'] = UserModel::checkFollow($id);
