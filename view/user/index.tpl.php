@@ -36,30 +36,42 @@ MVC::use_view('app/header');
             </form>
         </div>
         <hr style="border-color: white">
-
+<!-------------------------------------------------------------------->
         <div class="jumbotron my-4 py-4 d-none" id="post-template">
             <h4>@<?= $field['user_info']['username'] ?> <span class="badge badge-secondary"></span></h4>
-            <p></p>
-<!--                            <a class="btn btn-primary" href="/post/like/--><?//= $post_id ?><!--" role="button">Like</a>-->
-<!--                            <a class="btn btn-primary" href="/post/comment/--><?//= $post_id ?><!--" role="button">Comment</a>-->
-<!--        <form action="/edit/--><?//= $post_id ?><!--" method="post">-->
-<!--            <textarea class="form-control my-4" id="comment" name="comment" placeholder="Say what you think..."></textarea>-->
-<!--            <button class="btn btn-outline-success" href="/post/repost/POST_ID">Comment</button>-->
-<!--        </form>-->
+            <p class="post-body"></p>
+<!--            <a class="btn btn-primary" href="/post/like/--><?//= $post_id ?><!--" role="button">Like</a>-->
+<!--            <a class="btn btn-primary" href="/post/comment/--><?//= $post_id ?><!--" role="button">Comment</a>-->
+<!--            <form action="/post/edit/" method="post">-->
+<!--                <textarea class="form-control my-4" id="comment" name="comment" placeholder="Say what you think..."></textarea>-->
+<!--                <button class="btn btn-primary" type="button">Edit</button>-->
+<!--            </form>-->
         </div>
-
+<!-------------------------------------------------------------------->
         <?php
         foreach ($field['posts'] as $post_id => $post) {
         ?>
-            <div class="jumbotron my-4 py-4">
-                <h4>@<?= $field['user_info']['username'] ?> <span class="badge badge-secondary"><?= $post['time'] ?></span></h4>
-                <p><?= $post['body'] ?></p>
-<!--                <a class="btn btn-primary" href="/post/like/--><?//= $post_id ?><!--" role="button">Like</a>-->
-<!--                <a class="btn btn-primary" href="/post/comment/--><?//= $post_id ?><!--" role="button">Comment</a>-->
-<!--                <form action="/comment/--><?//= $post_id ?><!--">-->
-<!--                    <textarea class="form-control my-4" id="comment" name="comment" placeholder="Say what you think..."></textarea>-->
-<!--                    <button class="btn btn-outline-success" href="/post/repost/POST_ID">Comment</button>-->
-<!--                </form>-->
+            <div class="jumbotron my-4 py-4 post">
+                <nav class="post-setting float-right py-2 my-1">
+                    <button class="btn btn-primary btn-edit fa fa-pencil"></button>
+<!--                    <button class="btn btn-primary btn-comment fa fa-comment"></button>-->
+                    <button class="btn btn-primary btn-like fa fa-heart"></button>
+                </nav>
+                <div class="post-heading"><h4>@<?= $field['user_info']['username'] ?> <span class="badge badge-secondary"><?= $post['time'] ?></span></h4></div>
+                <div class="post-body"><?= $post['body'] ?></div>
+                <div class="post-forms">
+                    <form class="post-edit d-none" action="/post/<?= $post['post_id'] ?>/edit" method="post">
+                        <label for="body">Edit post</label>
+                        <textarea class="form-control mb-4" name="body" id="body"><?= $post['body'] ?></textarea>
+                        <button class="btn btn-success btn-edit-submit" type="button">Edit</button>
+                    </form>
+                    <form class="post-comment d-none" action="/post/<?= $post['post_id'] ?>/comment" method="post">
+                        <label for="comment">Add comment</label>
+                        <textarea class="form-control mb-4" name="comment" id="comment"><?= $post['body'] ?></textarea>
+                        <button class="btn btn-success btn-comment-submit" type="button">Comment</button>
+                    </form>
+                </div>
+                <span class="post-id"><?= $post['post_id'] ?></span>
             </div>
         <?php
         }

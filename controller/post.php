@@ -38,24 +38,25 @@ class PostController {
     }
 
     public function edit($request) {
-        // TODO: do it with AJAX
+        // TODO: check owner!
 
         if (!Auth::check()) {
             Service::redirect('login');
         }
 
-        $body = Service::get_post_param('post_body');
 
-        if (!$_POST || !$body) {
+        $data['body'] = Service::get_post_param('body');
+
+        if (!$_POST || !$data['body']) {
             return false;
         }
 
         $post_id = Service::get_uri_param($request, 1);
 
         MVC::use_model('post');
-        $post = PostModel::getPost($post_id);
+        $post = PostModel::editPost($post_id, $data);
 
-        return $body;
+        echo json_encode($post, JSON_UNESCAPED_UNICODE);
     }
 
     public function delete() {

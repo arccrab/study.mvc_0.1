@@ -47,8 +47,7 @@ class PostModel {
 
             for ($i = $range[0]; $i < $range[1]; $i++) {
                 if (isset($list[$i])) {
-                    $posts[$list[$i]] = $db->hgetall('post:'.$list[$i]);
-                    $posts[$list[$i]]['time'] = date('Y-m-d H:i:s', $posts[$list[$i]]['time']);
+                    $posts[$list[$i]] = self::getPost($list[$i]);
                 } else {
                     break;
                 }
@@ -92,7 +91,7 @@ class PostModel {
             $db->hset('post:'.$post_id, 'body', $data['body']);
             $db->hset('post:'.$post_id, 'time', time());
 
-            return true;
+            return self::getPost($post_id);
         }
 
         return false;
